@@ -1,0 +1,8 @@
+.vscode
+.idea
+
+bin/*
+!bin/.gitkeep
+
+obj/*
+!obj/.gitkeep
