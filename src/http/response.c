@@ -4,8 +4,8 @@
 #include <stdbool.h>
 
 #include "http.h"
-#include "http/headers/content.h"
 #include "http/headers/status.h"
+#include "http/headers/content.h"
 
 
 static int _generate_full_response(http_response *res);

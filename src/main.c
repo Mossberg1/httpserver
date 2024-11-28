@@ -70,7 +70,30 @@ int main(int argc, char *argv[])
         }
 
         // TODO: Parse the request.
-        printf(buffer);
+        http_request *req = malloc(sizeof(http_request));
+        if (req == NULL) 
+        {
+            close(client_fd);
+            close(socket_fd);
+            return 6;
+        }
+
+        parse_request(req, buffer);
+
+        printf("METHOD::%s\n", req->method);
+        printf("PATH::%s\n", req->path);
+        printf("VERSION::%s\n", req->version);
+        printf("HOST::%s\n", req->host);
+        printf("USER_AGENT::%s\n", req->user_agent);
+        printf("ACCEPT::%s\n", req->accept);
+        printf("ACCEPT_LANGUAGE::%s\n", req->accept_language);
+        printf("ACCEPT_ENCODING::%s\n", req->accept_encoding);
+        printf("CONNECTION::%s\n", req->connection);
+        printf("CONTENT_TYPE::%s\n", req->content_type);
+        printf("CONTENT_LENGTH::%s\n", req->content_length);
+        printf("BODY::%s\n", req->body);
+
+        free_request(req);
 
         // Generate a http response.
         http_response *res = malloc(sizeof(http_response));
@@ -78,7 +101,7 @@ int main(int argc, char *argv[])
         {   
             close(client_fd);
             close(socket_fd);
-            return 5;
+            return 7;
         }
 
         response(res, 200, "text/html", "<h1 style=\"color: green;\">Hello, World! My name is William Mossberg, and this is my first web server in C.</h1>");

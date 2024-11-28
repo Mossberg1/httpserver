@@ -2,6 +2,7 @@
 #define HTTP_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 // Max variables. FIXME: Maybe remove since struct uses pointer?
 #define MAX_BODY_LENGTH 256
@@ -73,6 +74,11 @@
 #define HTTP_NOT_EXTENDED 510
 #define HTTP_NETWORK_AUTHENTICATION_REQUIRED 511
 
+#define HTTP_GET "GET"
+#define HTTP_POST "POST"
+#define HTTP_PUT "PUT"
+#define HTTP_DELETE "DELETE"
+
 
 // Structs.
 typedef struct 
@@ -94,9 +100,32 @@ typedef struct
 http_response;
 
 
+typedef struct 
+{
+    char *method;
+    char *path;
+    char *version;
+    char *host;
+    char *user_agent;
+    char *accept;
+    char *accept_language;
+    char *accept_encoding;
+    char *connection;
+    char *content_type;
+    char *content_length;
+    char *body;
+}
+http_request;
+
+
 // Functions
 void free_response(http_response *res);
+void free_request(http_request *req);
+void parse_request(http_request *req, char *buffer);
 int response(http_response *res, int status_code, char *content_type, char *body);
+
+http_status _generate_status(int code);
+bool _validate_content_type(char *content_type);
 
 
 #endif
