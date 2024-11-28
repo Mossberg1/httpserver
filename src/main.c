@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 
 #include "http.h"
+#include "log.h"
 
 #define PORT 8080
 #define MAX_CONNECTIONS 10
@@ -14,6 +15,9 @@
 
 int main(int argc, char *argv[]) 
 {
+    // Print the server name with assci art.
+    log_logo("static/ascii/logo.txt");
+
     // Create a socket.
     int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_fd == -1) 
