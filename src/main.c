@@ -16,7 +16,7 @@
 int main(int argc, char *argv[]) 
 {
     // Print the server name with assci art.
-    log_logo("static/ascii/logo.txt");
+    ascii_art("static/ascii/logo.txt");
 
     // Create a socket.
     int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,6 +60,19 @@ int main(int argc, char *argv[])
             return 4;
         }
 
+        // Read the request.
+        char buffer[MAX_REQUEST_LENGTH] = { 0 };
+        int bytes_read = recv(client_fd, buffer, MAX_REQUEST_LENGTH - 1, 0);
+        if (bytes_read <= -1) 
+        {
+            close(client_fd);
+            continue;
+        }
+
+        // TODO: Parse the request.
+        printf(buffer);
+
+        // Generate a http response.
         http_response *res = malloc(sizeof(http_response));
         if (res == NULL)
         {   
@@ -68,7 +81,7 @@ int main(int argc, char *argv[])
             return 5;
         }
 
-        response(res, 200, "text/plain", "Hello, World! My name is William Mossberg, and this is my first web server in C.");
+        response(res, 200, "text/html", "<h1 style=\"color: green;\">Hello, World! My name is William Mossberg, and this is my first web server in C.</h1>");
 
         send(client_fd, res->full_response, strlen(res->full_response), 0);
         free_response(res);

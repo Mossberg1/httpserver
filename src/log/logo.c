@@ -6,7 +6,7 @@
 /*
 * Function to log the server name with ascii art.
 * Takes the path to the ascii art as argument. */
-void log_logo(char *path) 
+void ascii_art(char *path) 
 {
     FILE *fp = fopen(path, "r");
     if (fp == NULL) 
@@ -21,6 +21,6 @@ void log_logo(char *path)
         printf("%s", buffer);
     }
     
-    printf("%s\n", RESET);
+    printf("%s\n\n", RESET);
     fclose(fp);
 }

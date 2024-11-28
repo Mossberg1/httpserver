@@ -6,6 +6,7 @@
 // Max variables. FIXME: Maybe remove since struct uses pointer?
 #define MAX_BODY_LENGTH 256
 #define MAX_CONTENT_TYPE_LENGTH 32
+#define MAX_REQUEST_LENGTH 1024
 
 // Status codes.
 #define HTTP_CONTINUE 100

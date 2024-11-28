@@ -13,7 +13,7 @@
 #define WHITE   "\033[37m"
 
 
-void log_logo(char *path);
+void ascii_art(char *path);
 
 
 #endif
