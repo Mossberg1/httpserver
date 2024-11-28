@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude -g
+CFLAGS = -Wall -Wextra -Iinclude -Isrc -g
 LDFLAGS = 
 
 # Directories
@@ -12,8 +12,8 @@ BIN_DIR = bin
 TARGET = $(BIN_DIR)/httpserver
 
 # Source and object files
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRCS = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Default target
 all: $(TARGET)
@@ -25,12 +25,11 @@ $(TARGET): $(OBJS)
 
 # Compile source files to object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/$(dir $*)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Clean up build artifacts
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-# Phony targets
-.PHONY: all clean
+
