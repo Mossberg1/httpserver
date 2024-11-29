@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        // TODO: Parse the request.
+        // Parse the request.
         http_request *req = malloc(sizeof(http_request));
         if (req == NULL) 
         {
@@ -80,33 +80,40 @@ int main(int argc, char *argv[])
 
         parse_request(req, buffer);
 
-        printf("METHOD::%s\n", req->method);
-        printf("PATH::%s\n", req->path);
-        printf("VERSION::%s\n", req->version);
-        printf("HOST::%s\n", req->host);
-        printf("USER_AGENT::%s\n", req->user_agent);
-        printf("ACCEPT::%s\n", req->accept);
-        printf("ACCEPT_LANGUAGE::%s\n", req->accept_language);
-        printf("ACCEPT_ENCODING::%s\n", req->accept_encoding);
-        printf("CONNECTION::%s\n", req->connection);
-        printf("CONTENT_TYPE::%s\n", req->content_type);
-        printf("CONTENT_LENGTH::%s\n", req->content_length);
-        printf("BODY::%s\n", req->body);
-
-        free_request(req);
-
         // Generate a http response.
         http_response *res = malloc(sizeof(http_response));
         if (res == NULL)
         {   
+            free_request(req);
             close(client_fd);
             close(socket_fd);
             return 7;
         }
 
-        response(res, 200, "text/html", "<h1 style=\"color: green;\">Hello, World! My name is William Mossberg, and this is my first web server in C.</h1>");
+        // Validate the request TODO: Implement this function.
+        if (!validate_request(req)) 
+        {
+            response(res, HTTP_BAD_REQUEST, "text/html", "<h1 style=\"color: red;\">400 Bad Request</h1>");
+            send(client_fd, res->full_response, strlen(res->full_response), 0);
+            free_request(req);
+            free_response(res);
+            continue;
+        }
+
+        // Handle GET requests for /.
+        if (strcmp(req->method, HTTP_GET) == 0 && strcmp(req->path, "/") == 0) 
+        {
+            response(res, HTTP_OK, "text/html", "<h1 style=\"color: blue;\">This is the home page!</h1>");
+        }
+        else 
+        {
+            response(res, HTTP_NOT_FOUND, "text/html", "<h1 style=\"color: red;\">404 Not Found</h1>");
+        }
 
         send(client_fd, res->full_response, strlen(res->full_response), 0);
+        log_stdout(req, res);
+
+        free_request(req);
         free_response(res);
     }
 

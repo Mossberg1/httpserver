@@ -123,6 +123,7 @@ void free_response(http_response *res);
 void free_request(http_request *req);
 void parse_request(http_request *req, char *buffer);
 int response(http_response *res, int status_code, char *content_type, char *body);
+bool validate_request(http_request *req);
 
 http_status _generate_status(int code);
 bool _validate_content_type(char *content_type);

@@ -14,6 +14,7 @@
 
 
 void ascii_art(char *path);
+void log_stdout(http_request *req, http_response *res);
 
 
 #endif

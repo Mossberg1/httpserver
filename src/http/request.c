@@ -56,6 +56,13 @@ void parse_request(http_request *req, char *buffer)
 
 }
 
+/* Function to validate http request
+* TODO: Implement. */
+bool validate_request(http_request *req) 
+{
+    return true;
+}
+
 
 static void _parse_header(http_request *req, char *line) 
 {
