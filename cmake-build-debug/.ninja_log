@@ -1,0 +1,11 @@
+# ninja log v6
+1	48	1733326243806313952	CMakeFiles/Http.dir/http/content.c.o	d74d7a8fdb5b2bf
+1	51	1733326243806221619	CMakeFiles/Http.dir/http/status.c.o	7f4d3846ee57eb4
+1	57	1733326243806018537	CMakeFiles/Http.dir/http/response.c.o	2e5e8839ba9c52ca
+1	57	1733326243806131328	CMakeFiles/Http.dir/http/request.c.o	6e481811bed1d897
+0	62	1733326243805599540	CMakeFiles/Http.dir/main.c.o	aae26b76912ea07
+1	36	1733326301759593208	CMakeFiles/Http.dir/log/ascii.c.o	9b7ccb73ab146980
+1	36	1733326301759808416	CMakeFiles/Http.dir/log/stdout.c.o	c3c272e97164ed03
+36	81	1733326301794669968	Http	cd58b26428642b20
+2	121	1733326831094647703	CMakeFiles/Http.dir/http/request.c.o	6e481811bed1d897
+121	228	1733326831213491120	Http	cd58b26428642b20
