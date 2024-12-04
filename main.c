@@ -120,36 +120,19 @@ int main(int argc, char *argv[]) {
 
         // Handle requests for /.
         if (strcmp(req->method, HTTP_GET) == 0 && strcmp(req->path, "/") == 0) {
-            generate_response(res, HTTP_OK, "application/json",
-                              "{\"message\": \"Hello, World! Sucessful GET request\"}");
+            generate_response(res, HTTP_OK, "application/json", "{\"message\": \"Hello, World! Sucessful GET request\"}");
         } else if (strcmp(req->method, HTTP_POST) == 0 && strcmp(req->path, "/") == 0) {
-            generate_response(res, HTTP_OK, "application/json",
-                              "{\"message\": \"Hello, World! Sucessful POST request.\"}");
+            generate_response(res, HTTP_OK, "application/json", "{\"message\": \"Hello, World! Sucessful POST request.\"}");
         } else {
-            generate_response(res, HTTP_BAD_REQUEST, "application/json",
-                              "{\"message\": \"Request method not supported.\"}");
+            generate_response(res, HTTP_BAD_REQUEST, "application/json", "{\"message\": \"Request method not supported.\"}");
         }
 
         send(client_fd, res->full_response, strlen(res->full_response), 0);
 
-
-        // FIXME: REMOVE THIS BLOCK
-        printf("METHOD: %s\n", req->method);
-        printf("PATH: %s\n", req->path);
-        printf("VERSION: %s\n", req->version);
-        printf("HOST: %s\n", req->host);
-        printf("USER_AGENT: %s\n", req->user_agent);
-        printf("ACCEPT: %s\n", req->accept);
-        printf("ACCEPT_LANGUAGE: %s\n", req->accept_language);
-        printf("ACCEPT_ENCODING: %s\n", req->accept_encoding);
-        printf("CONNECTION: %s\n", req->connection);
-        printf("CONTENT_TYPE: %s\n", req->content_type);
-        printf("CONTENT_LENGTH: %s\n", req->content_length);
-        printf("BODY: %s\n", req->body);
+        // FIXME: Remove this.
+        printf("BODY:\t\n %s\n", req->body);
 
         log_stdout(req, res);
-
-        printf("*****************************\n"); // FIXME: REMOVE THIS LINE
 
         free_request(req);
         free_response(res);
