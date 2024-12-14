@@ -84,27 +84,23 @@
 
 
 // Structs.
-typedef struct
-{
+typedef struct {
     int code;
     char message[32];
 }
 http_status;
 
 
-typedef struct
-{
+typedef struct {
     http_status status;
     char *content_type;
     size_t content_length;
     char *body;
     char *full_response;
-}
-http_response;
+} http_response;
 
 
-typedef struct
-{
+typedef struct {
     char *method;
     char *path;
     char *version;
@@ -117,18 +113,24 @@ typedef struct
     char *content_type;
     char *content_length;
     char *body;
-}
-http_request;
+} http_request;
 
 
 // Functions
 void free_response(http_response *res);
+
 void free_request(http_request *req);
+
+void init_request(http_request *req);
+
 void parse_request(http_request *req, char *buffer);
+
 int generate_response(http_response *res, int status_code, char *content_type, char *body);
+
 bool validate_request(http_request *req);
 
 http_status _generate_status(int code);
+
 bool _validate_content_type(char *content_type);
 
 

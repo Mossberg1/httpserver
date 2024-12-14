@@ -1,3 +1,3 @@
-/Users/mossberg/Code/Http/cmake-build-debug/CMakeFiles/Http.dir
-/Users/mossberg/Code/Http/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mossberg/Code/Http/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mossberg/repos/httpserver/cmake-build-debug/CMakeFiles/Http.dir
+/home/mossberg/repos/httpserver/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mossberg/repos/httpserver/cmake-build-debug/CMakeFiles/rebuild_cache.dir

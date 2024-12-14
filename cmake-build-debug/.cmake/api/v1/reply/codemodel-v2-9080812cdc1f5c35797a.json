@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Http::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Http-Debug-6f8c60f11455364722d5.json",
+					"jsonFile" : "target-Http-Debug-276d905a431fe377f8fe.json",
 					"name" : "Http",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/mossberg/Code/Http/cmake-build-debug",
-		"source" : "/Users/mossberg/Code/Http"
+		"build" : "/home/mossberg/repos/httpserver/cmake-build-debug",
+		"source" : "/home/mossberg/repos/httpserver"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 7
 	}
 }

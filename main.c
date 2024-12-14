@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 
         // Read the request.
         char buffer[MAX_REQUEST_LENGTH] = {0};
-        int bytes_read = recv(client_fd, buffer, MAX_REQUEST_LENGTH - 1, 0);
+        ssize_t bytes_read = recv(client_fd, buffer, MAX_REQUEST_LENGTH - 1, 0);
         if (bytes_read <= -1) {
             perror("Could not read request.\n");
             close(client_fd);
@@ -95,6 +95,8 @@ int main(int argc, char *argv[]) {
             close(socket_fd);
             return 6;
         }
+
+        init_request(req);
 
         parse_request(req, buffer);
 
