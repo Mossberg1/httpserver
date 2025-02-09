@@ -24,7 +24,7 @@ $(TARGET): $(OBJ_FILES)
 # Compile source files into object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -g -c $< -o $@
 
 # Clean up the build
 clean:

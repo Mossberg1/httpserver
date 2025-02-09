@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <string.h>
 
 #include "../include/http.h"
@@ -5,29 +6,50 @@
 /*
  * Function to parse http requests.
  */
-int parse(char buffer[], size_t size, http_request* req) 
+int parse_request(char buffer[], size_t size, http_request* req) 
 {
-        char* delims = " :\n";
+        char* bufsave;
+        char* linesave;
+        char* line = strtok_r(buffer, "\n", &bufsave);
         
         // Parse the firstline
-        char* method  = strtok(buffer, delims);
-        char* path    = strtok(NULL, delims);
-        char* version = strtok(NULL, delims);
-        
-        if (method == NULL || path == NULL || version == NULL) {
-                return -1;
+        if (line != NULL) { 
+                char* method  = strtok_r(line, " ", &linesave);
+                char* path    = strtok_r(NULL, " ", &linesave);
+                char* version = strtok_r(NULL, " ", &linesave);
+
+                if (method == NULL || path == NULL || version == NULL) {
+                        return -1;
+                }
+
+                strncpy(req->method, method, sizeof(req->method) - 1);
+                strncpy(req->path, path, sizeof(req->path) - 1);
+                strncpy(req->version, version, sizeof(req->version) - 1);
         }
-
-        strncpy(req->method, method, sizeof(req->method) - 1);
-        req->method[sizeof(req->method) - 1] = '\0';
         
-        strncpy(req->path, path, sizeof(req->path) - 1);
-        req->path[sizeof(req->path) - 1] = '\0';
+        size_t index = 0;
 
-        strncpy(req->version, version, sizeof(req->version) - 1);
-        req->version[sizeof(req->version) - 1] = '\0';
- 
         // Parse the headers
+        while ((line = strtok_r(NULL, "\n", &bufsave)) != NULL) {
+                if (index >= MAXHEADERS) {
+                        return -2;
+                }
+
+                http_header header;
+                char* separator = strchr(line, ':');
+                
+                if (separator != NULL) {
+                        *separator = '\0';
+
+                        char* key = line;
+                        char* value = separator + 2;
+                        strncpy(header.key, key, sizeof(header.key));
+                        strncpy(header.value, value, sizeof(header.value));
+
+                        req->headers[index++] = header;
+                        req->n_headers++;
+                }
+        }
 
         // Parse body
         return 0;

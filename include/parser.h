@@ -5,7 +5,7 @@
 #include "http.h"
 
 
-int parse(char buffer[], size_t size, http_request* req);
+int parse_request(char buffer[], size_t size, http_request* req);
 
 
 #endif

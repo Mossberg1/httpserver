@@ -35,12 +35,14 @@ int main(int argc, char* argv[])
 
         // Bind the socket.
         if (bind(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+                close(sockfd);
                 printf("Bind: %s\n", strerror(errno));
                 return 2;
         }
 
         // Listen for connection
         if (listen(sockfd, 3) < 0) {
+                close(sockfd);
                 printf("Listen: %s\n", strerror(errno));
                 return 3;
         }
@@ -51,41 +53,49 @@ int main(int argc, char* argv[])
         // Accept the connection
         int client_fd = accept(sockfd, (struct sockaddr*)&client_addr, &client_len);
         if (client_fd < 0) {
+                close(sockfd);
                 printf("Accept: %s\n", strerror(errno));
                 return 4;
         }
 
         char buffer[BUFSIZE];
-        
+
         // Read the request.
         ssize_t n_read = read(client_fd, buffer, sizeof(buffer) - 1);
         if (n_read < 0) {
+                close(sockfd);
                 printf("Read: %s\n", strerror(errno));
                 return 5;
         }
 
+        printf("BUFFER:\n%s\n\n", buffer);
+
         http_request* req = (http_request*)malloc(sizeof(http_request));
         if (req == NULL) {
+                close(sockfd);
                 printf("Malloc failed!\n");
                 return 6;
         }
 
-        if (parse(buffer, sizeof(buffer), req) < 0) {
+        if (parse_request(buffer, sizeof(buffer), req) < 0) {
+                free(req);
+                close(sockfd);
                 printf("Failed to parse http request.\n");
                 return 7;
         } 
-
-        printf("Method: %s\n", req->method);
-        printf("Path: %s\n", req->path);
-        printf("Version: %s\n", req->version);
 
         char* msg = "Hello, World!";
         
         // Send a response.
         if (send(client_fd, msg, strlen(msg), 0) < 0) {
+                free(req);
+                close(sockfd);
                 printf("Send: %s\n", strerror(errno));
                 return 8;
         }
+
+        free(req);
+        close(sockfd);
 
         return 0;
 }

@@ -19,5 +19,7 @@ void welcome()
                putchar(ch); 
         }
 
+        close(fd);
+
         return;
 }
