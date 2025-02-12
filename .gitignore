@@ -2,3 +2,4 @@
 # Ignore build directories.
 bin/
 obj/
+dev/
