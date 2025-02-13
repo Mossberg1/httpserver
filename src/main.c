@@ -10,6 +10,7 @@
 #include "../include/http.h"
 #include "../include/log.h"
 #include "../include/parser.h"
+#include "../include/file.h"
 
 
 #define BUFSIZE 1024
@@ -19,6 +20,25 @@
 int main(int argc, char* argv[]) 
 {
         welcome();
+
+        // Generate filetree data structure.
+        struct fnode* root = fnode_create("/home/mossberg/repos/httpserver/static", NULL, true);
+        struct fnode* vdir = fnode_create("videos", root, true);
+        struct fnode* idir = fnode_create("images", root, true);
+
+        fnode_add_child(root, vdir);
+        struct fnode* the_land_of_the_lost = fnode_create("the-land-of-the-lost.mp4", vdir, false);
+        struct fnode* the_ring = fnode_create("the-ring.mp4", vdir, false);
+        fnode_add_child(vdir, the_land_of_the_lost);
+        fnode_add_child(vdir, the_ring);
+        
+        fnode_add_child(root, idir);
+        struct fnode* stitch = fnode_create("stitch.png", idir, false);
+        struct fnode* creeper = fnode_create("creeper.png", idir, false);
+        fnode_add_child(idir, stitch);
+        fnode_add_child(idir, creeper);
+
+        fnode_print(root, 0);
 
         // Create a socket.
         int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -95,6 +115,13 @@ int main(int argc, char* argv[])
         }
 
         free(req);
+        free(creeper);
+        free(stitch);
+        free(idir);
+        free(the_land_of_the_lost);
+        free(the_ring);
+        free(vdir);
+        free(root);
         close(sockfd);
 
         return 0;
